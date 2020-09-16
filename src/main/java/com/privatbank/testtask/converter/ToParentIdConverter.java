@@ -1,4 +1,4 @@
-package com.privatbank.testtask.util;
+package com.privatbank.testtask.converter;
 
 import com.privatbank.testtask.domain.Type;
 
