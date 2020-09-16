@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -13,5 +13,5 @@ import java.util.Map;
 @Builder
 public class FromJSONData {
 
-    private Map<String, String> fromJSONData;
+    private List<Pair> pairList;
 }
