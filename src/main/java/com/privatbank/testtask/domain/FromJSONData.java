@@ -1,17 +1,19 @@
 package com.privatbank.testtask.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class FromJSONData {
+    private List<Pair> pairs;
 
-    private List<Pair> pairList;
+    public FromJSONData(List<Pair> pairs) {
+        this.pairs = pairs;
+    }
+
+    public List<Pair> getPairs() {
+        return pairs;
+    }
+
+    public void setPairs(List<Pair> pairs) {
+        this.pairs = pairs;
+    }
 }

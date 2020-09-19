@@ -17,10 +17,7 @@ public class JSONPToListParser {
                 "resources\\pr.json";
         String allText = getTextFromJSON(path);
 
-        return parseTextToMap(allText);
-    }
-
-    public static void main(String[] args) {
+        return parseTextToList(allText);
     }
 
     private static String getTextFromJSON(String path) {
@@ -34,7 +31,7 @@ public class JSONPToListParser {
         return null;
     }
 
-    private static List<Pair> parseTextToMap(String text){
+    private static List<Pair> parseTextToList(String text){
         List<Pair> pairList = new ArrayList<>();
         //ToDo:
         //parse text to pairs
