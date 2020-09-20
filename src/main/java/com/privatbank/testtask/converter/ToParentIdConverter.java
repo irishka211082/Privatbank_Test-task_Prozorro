@@ -1,12 +1,14 @@
 package com.privatbank.testtask.converter;
 
-import com.privatbank.testtask.domain.Type;
+import com.privatbank.testtask.domain.ClassifierType;
 
 public class ToParentIdConverter {
 
     private static final int[] indexes = {3, 7, 1, 3, 7, 1, 3, 7};
 
-    public static String convertToParentId(String childId, Type type) {
+    public static String convertToParentId(String childId, ClassifierType type) {
+        if (ClassifierType.SECTION.equals(type)) return null;
+
         char[] chars = childId.toCharArray();
         int[] childNums = convertToNums(chars);
         int[] parentNumsId = prepareParentId(childNums, type);
@@ -33,14 +35,14 @@ public class ToParentIdConverter {
         return nums;
     }
 
-    private static int[] prepareParentId(int[] childNums, Type type) {
-        if (type.equals(Type.ITEM)) {
+    private static int[] prepareParentId(int[] childNums, ClassifierType type) {
+        if (type.equals(ClassifierType.ITEM)) {
             return prepareCategoryId(childNums);
-        } else if (type.equals(Type.CATEGORY)) {
+        } else if (type.equals(ClassifierType.CATEGORY)) {
             return prepareClassId(childNums);
-        } else if (type.equals(Type.CLASS)) {
+        } else if (type.equals(ClassifierType.CLASS)) {
             return prepareGroupId(childNums);
-        } else if (type.equals(Type.GROUP)) {
+        } else if (type.equals(ClassifierType.GROUP)) {
             return prepareSectionId(childNums);
         }
         return null;

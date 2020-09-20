@@ -1,17 +1,17 @@
 package com.privatbank.testtask.converter;
 
-import com.privatbank.testtask.domain.Pair;
-import com.privatbank.testtask.domain.Record;
+import com.privatbank.testtask.domain.JsonClassifierItem;
+import com.privatbank.testtask.domain.ClassifierItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ToRecordListConverter {
 
-    public static List<Record> convertToList(List<Pair> pairList) {
-        List<Record> recordList = new ArrayList<>();
-        for (Pair pair : pairList) {
-            Record record = ToRecordConverter.convertPairToRecord(pair);
+    public static List<ClassifierItem> convertToList(List<JsonClassifierItem> classifierItemList) {
+        List<ClassifierItem> recordList = new ArrayList<>();
+        for (JsonClassifierItem classifierItem : classifierItemList) {
+            ClassifierItem record = ToRecordConverter.convertPairToRecord(classifierItem);
             recordList.add(record);
         }
         return recordList;

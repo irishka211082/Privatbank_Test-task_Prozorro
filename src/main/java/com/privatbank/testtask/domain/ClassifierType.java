@@ -1,5 +1,5 @@
 package com.privatbank.testtask.domain;
 
-public enum Type {
+public enum ClassifierType {
     SECTION, GROUP, CLASS, CATEGORY, ITEM
 }

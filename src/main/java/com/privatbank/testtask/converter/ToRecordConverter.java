@@ -1,18 +1,18 @@
 package com.privatbank.testtask.converter;
 
-import com.privatbank.testtask.domain.Pair;
-import com.privatbank.testtask.domain.Record;
-import com.privatbank.testtask.domain.Type;
+import com.privatbank.testtask.domain.JsonClassifierItem;
+import com.privatbank.testtask.domain.ClassifierItem;
+import com.privatbank.testtask.domain.ClassifierType;
 import com.privatbank.testtask.util.TypeValidator;
 
 public class ToRecordConverter {
 
-    public static Record convertPairToRecord(Pair pair) {
-        Type type = TypeValidator.checkType(pair.getId());
-        Record record = new Record(pair.getId(), pair.getName(), type);
+    public static ClassifierItem convertPairToRecord(JsonClassifierItem classifierItem) {
+        ClassifierType type = TypeValidator.checkType(classifierItem.getId());
+        ClassifierItem record = new ClassifierItem(classifierItem.getId(), classifierItem.getName(), type);
 
-        if (!type.equals(Type.SECTION)) {
-            String parentId = ToParentIdConverter.convertToParentId(pair.getId(), type);
+        if (!type.equals(ClassifierType.SECTION)) {
+            String parentId = ToParentIdConverter.convertToParentId(classifierItem.getId(), type);
             record.setParentId(parentId);
         }
         return record;
