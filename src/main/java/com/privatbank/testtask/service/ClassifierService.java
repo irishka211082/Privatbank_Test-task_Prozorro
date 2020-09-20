@@ -2,7 +2,7 @@ package com.privatbank.testtask.service;
 
 import com.privatbank.testtask.converter.ToParentIdConverter;
 import com.privatbank.testtask.domain.ClassifierItem;
-import com.privatbank.testtask.domain.ClassifierType;
+import com.privatbank.testtask.utils.TypeUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -49,21 +49,12 @@ public class ClassifierService {
                 .map(es -> ClassifierItem.builder()
                         .id(es.getKey())
                         .name(es.getValue())
-                        .type(getClassifierType(es.getKey()))
-                        .parentId(ToParentIdConverter.convertToParentId(es.getKey(), getClassifierType(es.getKey())))
+                        .type(TypeUtil.getClassifierType(es.getKey()))
+                        .parentId(ToParentIdConverter.convertToParentId(
+                                es.getKey(),
+                                TypeUtil.getClassifierType(es.getKey())))
                         .build())
                 .collect(Collectors.toList());
         return classifierItemList;
-    }
-
-
-    private static ClassifierType getClassifierType(String id) {
-        char[] chars = id.toCharArray();
-
-        if ("0".equalsIgnoreCase(String.valueOf(chars[2]))) return ClassifierType.SECTION;
-        else if ("0".equalsIgnoreCase(String.valueOf(chars[3]))) return ClassifierType.GROUP;
-        else if ("0".equalsIgnoreCase(String.valueOf(chars[4]))) return ClassifierType.CLASS;
-        else if ("0".equalsIgnoreCase(String.valueOf(chars[5]))) return ClassifierType.CATEGORY;
-        else return ClassifierType.ITEM;
     }
 }

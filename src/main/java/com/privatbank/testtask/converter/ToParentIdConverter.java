@@ -17,12 +17,13 @@ public class ToParentIdConverter {
     }
 
     private static String prepareStringParentId(int[] parentNumsId, int parentControlNumber) {
+        int REDIX = 10;
         char[] chars = new char[10];
         for (int i = 0; i < 8; i++) {
-            chars[i] = (char) parentNumsId[i];
+            chars[i] = Character.forDigit(parentNumsId[i], REDIX);
         }
         chars[8] = '-';
-        chars[9] = (char) parentControlNumber;
+        chars[9] = Character.forDigit(parentControlNumber, REDIX);
 
         return String.valueOf(chars);
     }
@@ -30,7 +31,7 @@ public class ToParentIdConverter {
     private static int[] convertToNums(char[] chars) {
         int[] nums = new int[8];
         for (int i = 0; i < nums.length; i++) {
-            nums[i] = chars[i];
+            nums[i] = Integer.parseInt(String.valueOf(chars[i]));
         }
         return nums;
     }
@@ -48,33 +49,24 @@ public class ToParentIdConverter {
         return null;
     }
 
-    private static int[] prepareItemId(int[] nums) {
-        nums[8] = 0;
+    private static int[] prepareCategoryId(int[] nums) {
         nums[7] = 0;
         nums[6] = 0;
-        return nums;
-    }
-
-    private static int[] prepareCategoryId(int[] nums) {
-        nums = prepareItemId(nums);
         nums[5] = 0;
         return nums;
     }
 
     private static int[] prepareClassId(int[] nums) {
-        nums = prepareCategoryId(nums);
         nums[4] = 0;
         return nums;
     }
 
     private static int[] prepareGroupId(int[] nums) {
-        nums = prepareClassId(nums);
         nums[3] = 0;
         return nums;
     }
 
     private static int[] prepareSectionId(int[] nums) {
-        nums = prepareGroupId(nums);
         nums[2] = 0;
         return nums;
     }
