@@ -9,8 +9,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: INT
-                  autoIncrement: true
+                  type: varchar(10)
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -26,6 +25,6 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: parent_id
-                  type: INT
+                  type: varchar(10)
                   constraints:
                     nullable: false
