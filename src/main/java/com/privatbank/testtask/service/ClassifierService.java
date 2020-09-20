@@ -1,48 +1,69 @@
 package com.privatbank.testtask.service;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.privatbank.testtask.converter.ToParentIdConverter;
+import com.privatbank.testtask.domain.ClassifierItem;
 import com.privatbank.testtask.domain.ClassifierType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ClassifierService {
 
-    private static final String TEMP_DATA_FROM_REGISTRY = "{\n" +
-            "    \"03000000-1\": \"Сільськогосподарська, фермерська продукція, продукція рибальства, лісівництва та супутня продукція\", \n" +
-            "    \"03100000-2\": \"Сільськогосподарська продукція та продукція рослинництва\", \n" +
-            "    \"03110000-5\": \"Сільськогосподарські культури, продукція товарного садівництва та рослинництва\", \n" +
-            "    \"03111000-2\": \"Насіння\"\n" +
-            "}";
+    private static final String CLASSIFIER_SERVICE_URL =
+            "https://prozorroukr.github.io/standards/classifiers/dk021_uk.json";
 
-    private String getJsonFromRegistry() {
-        return TEMP_DATA_FROM_REGISTRY;
+    public ClassifierItem saveRecordToDb(ClassifierItem classifierItem) {
+        return classifierItem;
     }
 
-    private String getClassifierDataFromJson(String json) {
-        Gson gson = new Gson();
+    public void saveAllRecordsToDb() {
+        Map<String, String> rawDataMap = getRawDataFromExternalService();
+        List<ClassifierItem> classifierItemList = parseRawClassifierDataToModels(rawDataMap);
+        for (ClassifierItem classifierItem : classifierItemList) {
+            saveRecordToDb(classifierItem);
+        }
+    }
 
-        Type type = new TypeToken<Map<String, String>>() {
-        }.getType();
-        Map<String, String> records = gson.fromJson(json, type);
-
-
+    public ClassifierItem getRecord(String recordId) {
         return null;
     }
 
+    public List<ClassifierItem> getChildren(String recordId) {
+        return null;
+    }
 
-    public static ClassifierType getType(String id) {
-        char[] chars = id.toCharArray();
-        if (chars[2] == 0) return ClassifierType.SECTION;
-        else if (chars[3] == 0) return ClassifierType.GROUP;
-        else if (chars[4] == 0) return ClassifierType.CLASS;
-        else if (chars[5] == 0) return ClassifierType.CATEGORY;
-        else return ClassifierType.ITEM;
+    public void updateRecords(List<ClassifierItem> classifierItemList) {
+    }
+
+    private static Map<String, String> getRawDataFromExternalService() {
+        Map<String, String> rawData = new RestTemplate().getForObject(CLASSIFIER_SERVICE_URL, Map.class);
+        return rawData;
+    }
+
+    public static List<ClassifierItem> parseRawClassifierDataToModels(Map<String, String> rawData) {
+        List<ClassifierItem> classifierItemList = rawData.entrySet().stream()
+                .map(es -> ClassifierItem.builder()
+                        .id(es.getKey())
+                        .name(es.getValue())
+                        .type(getClassifierType(es.getKey()))
+                        .parentId(ToParentIdConverter.convertToParentId(es.getKey(), getClassifierType(es.getKey())))
+                        .build())
+                .collect(Collectors.toList());
+        return classifierItemList;
     }
 
 
+    private static ClassifierType getClassifierType(String id) {
+        char[] chars = id.toCharArray();
 
+        if ("0".equalsIgnoreCase(String.valueOf(chars[2]))) return ClassifierType.SECTION;
+        else if ("0".equalsIgnoreCase(String.valueOf(chars[3]))) return ClassifierType.GROUP;
+        else if ("0".equalsIgnoreCase(String.valueOf(chars[4]))) return ClassifierType.CLASS;
+        else if ("0".equalsIgnoreCase(String.valueOf(chars[5]))) return ClassifierType.CATEGORY;
+        else return ClassifierType.ITEM;
+    }
 }
