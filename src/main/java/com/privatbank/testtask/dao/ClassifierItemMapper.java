@@ -13,7 +13,7 @@ public class ClassifierItemMapper implements RowMapper<ClassifierItem> {
         return ClassifierItem.builder()
                 .id(rs.getString("id"))
                 .name(rs.getString("item_name"))
-                .type(ClassifierType.values()[Integer.parseInt(rs.getString("item_type"))])
+                .type(ClassifierType.values()[rs.getInt("item_type")])
                 .parentId(rs.getString("parent_id"))
                 .build();
     }
