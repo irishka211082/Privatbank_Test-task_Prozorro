@@ -18,10 +18,10 @@ public class ItemDaoImpl implements ItemDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public ClassifierItem createItem(String id, String itemName, int itemType, String parentId) {
+    public ClassifierItem createItem(String id, String name, int type, String parentId) {
         log.info("Try to add new item to database.");
-        String SQL = "INSERT INTO ITEMS (id, itemName, itemType, parentId) VALUES (?,?,?,?)";
-        int update = jdbcTemplate.update(SQL, id, itemName, itemType, parentId);
+        String SQL = "INSERT INTO ITEMS (id, item_name, item_type, parent_id) VALUES (?,?,?,?)";
+        int update = jdbcTemplate.update(SQL, id, name, type, parentId);
         if (update == 1) {
             log.debug("Item with id {} was added.", id);
         }

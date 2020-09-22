@@ -14,17 +14,15 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
+                  name: item_name
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: type
+                  name: item_type
                   type: varchar(10)
                   constraints:
                     nullable: false
               - column:
                   name: parent_id
                   type: varchar(10)
-                  constraints:
-                    nullable: false
