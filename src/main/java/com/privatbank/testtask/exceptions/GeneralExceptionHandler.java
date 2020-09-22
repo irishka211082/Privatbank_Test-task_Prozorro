@@ -13,12 +13,18 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoChildrenException.class)
     protected ResponseEntity<GeneralException> handleNoSharesAvailableException() {
-        return new ResponseEntity<>(new GeneralException(("There are no children for this item!")), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(
+                new GeneralException(("There are no children for this item!")),
+                HttpStatus.NOT_FOUND
+        );
     }
 
     @ExceptionHandler(NoItemException.class)
     protected ResponseEntity<GeneralException> handleNoSharesException() {
-        return new ResponseEntity<>(new GeneralException(("There is no item with a such id!")), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(
+                new GeneralException(("There is no item with a such id!")),
+                HttpStatus.NOT_FOUND
+        );
     }
 
     @Data

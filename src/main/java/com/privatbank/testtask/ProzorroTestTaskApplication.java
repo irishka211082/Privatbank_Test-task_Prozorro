@@ -9,5 +9,4 @@ public class ProzorroTestTaskApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProzorroTestTaskApplication.class, args);
     }
-
 }

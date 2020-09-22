@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface ClassifierService {
 
-    ClassifierItem saveRecordToDb(ClassifierItem classifierItem);
+    ClassifierItem saveItemToDb(ClassifierItem classifierItem);
 
-    void saveAllRecordsToDb();
+    List<ClassifierItem> saveAllItemsToDb();
 
-    ClassifierItem getRecordById(String recordId);
+    ClassifierItem getItemById(String recordId);
 
     List<ClassifierItem> getAllRecords();
 
     List<ClassifierItem> getChildren(String recordId);
 
-    void updateRecords(List<ClassifierItem> classifierItemList);
+    List<ClassifierItem> updateRecords(List<ClassifierItem> classifierItemList);
 }

@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ClasiifierItemMapper implements RowMapper<ClassifierItem> {
+public class ClassifierItemMapper implements RowMapper<ClassifierItem> {
     public ClassifierItem mapRow(ResultSet rs, int rowNum) throws SQLException {
         return ClassifierItem.builder()
                 .id(rs.getString("id"))
