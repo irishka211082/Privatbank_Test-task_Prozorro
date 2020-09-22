@@ -2,6 +2,9 @@ package com.privatbank.testtask.service.impl;
 
 import com.privatbank.testtask.dao.ItemDao;
 import com.privatbank.testtask.domain.ClassifierItem;
+import com.privatbank.testtask.exceptions.NoChildrenException;
+import com.privatbank.testtask.exceptions.NoItemException;
+import com.privatbank.testtask.exceptions.NoItemsException;
 import com.privatbank.testtask.service.ClassifierService;
 import com.privatbank.testtask.utils.DataParser;
 import lombok.AllArgsConstructor;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -42,14 +46,18 @@ public class ClassifierServiceImpl implements ClassifierService {
     public ClassifierItem getItemById(String id) {
         log.info("Try to get item with id {} from database.", id);
         ClassifierItem item = itemDao.getItemById(id);
-        log.debug("The item with id {} was found", id);
+        if (Objects.nonNull(item)) {
+            log.debug("The item with id {} was found", id);
+        } else throw new NoItemException();
         return item;
     }
 
-    public List<ClassifierItem> getAllRecords(){
+    public List<ClassifierItem> getAllRecords() {
         log.info("Try to get all items from database.");
         List<ClassifierItem> items = itemDao.getAllItems();
-        log.debug("There are {} items were found.", items.size());
+        if (Objects.nonNull(items)) {
+            log.debug("There are {} items were found.", items.size());
+        } else throw new NoItemsException();
         return items;
     }
 
@@ -59,10 +67,12 @@ public class ClassifierServiceImpl implements ClassifierService {
 
         if (item.getType().getValue() == 5) {
             List<ClassifierItem> children = itemDao.getChildrenOfItem(item.getParentId());
-            log.debug("Children for item with id {} were found successfully", id);
+            if (Objects.nonNull(children)) {
+                log.debug("Children for item with id {} were found successfully", id);
+            } else throw new NoChildrenException();
             return children;
         }
-        return null;
+        throw new NoChildrenException();
     }
 
     public List<ClassifierItem> updateRecords(List<ClassifierItem> classifierItemList) {

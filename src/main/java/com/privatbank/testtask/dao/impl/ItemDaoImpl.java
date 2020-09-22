@@ -4,25 +4,18 @@ import com.privatbank.testtask.dao.ClassifierItemMapper;
 import com.privatbank.testtask.dao.ItemDao;
 import com.privatbank.testtask.domain.ClassifierItem;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Objects;
 
 @Slf4j
 @Component
 public class ItemDaoImpl implements ItemDao {
-
-    private DataSource dataSource;
+    @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @Override
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
 
     @Override
     public ClassifierItem createItem(String id, String itemName, int itemType, String parentId) {
