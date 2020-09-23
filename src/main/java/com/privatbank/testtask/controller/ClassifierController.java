@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/classifier")
 public class ClassifierController {
+
     private final ClassifierService classifierService;
 
     public ClassifierController(ClassifierService classifierService) {

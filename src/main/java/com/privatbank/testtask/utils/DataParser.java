@@ -30,7 +30,7 @@ public class DataParser {
 
     private static List<ClassifierItem> parseRawClassifierDataToModels(Map<String, String> rawData) {
         log.info("Try to parse raw classifier data to models.");
-        List<ClassifierItem> classifierItemList = rawData.entrySet().stream()
+        return rawData.entrySet().stream()
                 .map(es -> ClassifierItem.builder()
                         .id(es.getKey())
                         .name(es.getValue())
@@ -40,10 +40,6 @@ public class DataParser {
                                 TypeUtil.getClassifierType(es.getKey())))
                         .build())
                 .collect(Collectors.toList());
-        if (Objects.nonNull(classifierItemList)) {
-            log.debug("Data was parsed successfully!");
-        }
-        return classifierItemList;
     }
 
     public static List<ClassifierItem> parse() {
