@@ -21,8 +21,8 @@ public class ItemDaoImpl implements ItemDao {
     @Override
     public ClassifierItem createItem(String id, String name, int type, String parentId) {
         log.debug("Try to add new item to database.");
-        String SQL = "INSERT INTO ITEMS (id, item_name, item_type, parent_id) VALUES (?,?,?,?)";
-        int update = jdbcTemplate.update(SQL, id, name, type, parentId);
+        String sql = "INSERT INTO ITEMS (id, item_name, item_type, parent_id) VALUES (?,?,?,?)";
+        int update = jdbcTemplate.update(sql, id, name, type, parentId);
         if (update == 1) {
             log.debug("Item with id {} was added.", id);
         }
@@ -31,10 +31,10 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public ClassifierItem getItemById(String id) {
-        log.info("Try to get an item with id {] from database", id);
-        String SQL = "SELECT * FROM ITEMS WHERE id = ?";
+        log.info("Try to get an item with id {} from database", id);
+        String sql = "SELECT * FROM ITEMS WHERE id = ?";
         ClassifierItem item = jdbcTemplate.queryForObject(
-                SQL,
+                sql,
                 new Object[]{id},
                 new ClassifierItemMapper()
         );
@@ -47,38 +47,21 @@ public class ItemDaoImpl implements ItemDao {
     @Override
     public List<ClassifierItem> getAllItems() {
         log.info("Try to get all items from database.");
-        String SQL = "SELECT * FROM ITEMS";
-        List<ClassifierItem> items = jdbcTemplate.query(SQL, new ClassifierItemMapper());
-        if (Objects.nonNull(items)) {
-            log.debug("{} items was found in database", items.size());
-        }
+        String sql = "SELECT * FROM ITEMS";
+        List<ClassifierItem> items = jdbcTemplate.query(sql, new ClassifierItemMapper());
+
         return items;
     }
 
     @Override
     public List<ClassifierItem> getChildrenOfItem(String parentId) {
         log.info("Try to get children of item with id {}.", parentId);
-        String SQL = "SELECT * FROM ITEMS WHERE parent_id = ?";
-        List<ClassifierItem> items = jdbcTemplate.query(
-                SQL,
+        String sql = "SELECT * FROM ITEMS WHERE parent_id = ?";
+        return jdbcTemplate.query(
+                sql,
                 new Object[]{parentId},
                 new ClassifierItemMapper()
         );
-        if (Objects.nonNull(items)) {
-            log.debug("{} child-items were received from database for item with id {}",
-                    items.size(), parentId);
-        }
-        return items;
-    }
-
-    @Override
-    public void removeItem(String id) {
-        log.debug("Try to delete item with id {}.", id);
-        String SQL = "DELETE FROM ITEMS WHERE id = ?";
-        int update = jdbcTemplate.update(SQL, id);
-        if (Objects.nonNull(update)) {
-            log.debug("The item with id {} was removed ftom database successfully!", id);
-        }
     }
 
     @Override
