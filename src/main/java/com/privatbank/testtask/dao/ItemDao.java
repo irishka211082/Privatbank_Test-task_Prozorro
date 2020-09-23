@@ -15,4 +15,6 @@ public interface ItemDao {
     List<ClassifierItem> getChildrenOfItem(String parentId);
 
     void removeItem(String id);
+
+    void truncateTable();
 }

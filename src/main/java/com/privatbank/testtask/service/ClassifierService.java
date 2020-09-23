@@ -16,5 +16,5 @@ public interface ClassifierService {
 
     List<ClassifierItem> getChildren(String recordId);
 
-    List<ClassifierItem> updateRecords(List<ClassifierItem> classifierItemList);
+    List<ClassifierItem> updateRecords();
 }

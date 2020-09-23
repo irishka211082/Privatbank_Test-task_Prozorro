@@ -14,12 +14,13 @@ import java.util.Objects;
 @Slf4j
 @Component
 public class ItemDaoImpl implements ItemDao {
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public ClassifierItem createItem(String id, String name, int type, String parentId) {
-        log.info("Try to add new item to database.");
+        log.debug("Try to add new item to database.");
         String SQL = "INSERT INTO ITEMS (id, item_name, item_type, parent_id) VALUES (?,?,?,?)";
         int update = jdbcTemplate.update(SQL, id, name, type, parentId);
         if (update == 1) {
@@ -38,7 +39,7 @@ public class ItemDaoImpl implements ItemDao {
                 new ClassifierItemMapper()
         );
         if (Objects.nonNull(item)) {
-            log.debug("Item with id {] was found.", id);
+            log.debug("Item with id {} was found.", id);
         }
         return item;
     }
@@ -78,5 +79,10 @@ public class ItemDaoImpl implements ItemDao {
         if (Objects.nonNull(update)) {
             log.debug("The item with id {} was removed ftom database successfully!", id);
         }
+    }
+
+    @Override
+    public void truncateTable() {
+        jdbcTemplate.execute("TRUNCATE items");
     }
 }

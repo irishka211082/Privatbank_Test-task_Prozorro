@@ -39,9 +39,9 @@ public class ClassifierController {
         return new ResponseEntity<>(classifierService.getAllRecords(), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<List<ClassifierItem>> updateItems(@RequestParam @NonNull List<ClassifierItem> items) {
-        return new ResponseEntity<>(classifierService.updateRecords(items), HttpStatus.OK);
+    @PutMapping()
+    public ResponseEntity<List<ClassifierItem>> updateItems() {
+        return new ResponseEntity<>(classifierService.updateRecords(), HttpStatus.OK);
     }
 }
 
